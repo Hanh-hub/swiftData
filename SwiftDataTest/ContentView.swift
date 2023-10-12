@@ -6,19 +6,39 @@
 //
 
 import SwiftUI
-
+import SwiftData
 struct ContentView: View {
+
+    @Query var cats: [Category]
+    
+   // @StateObject var mgn = CardManager()
+    
+    @State var showView: Bool = false
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+       NavigationStack {
+            TabView {
+                Button(action: {showView = true}, label: {
+                    Text("click to add card")
+                })
+                .sheet(isPresented: $showView, content: {
+                    AddCardView()
+                })
+                    .tabItem {
+                        Text("Add card")
+                    }
+                CategoryListView2()
+                    .tabItem {
+                        Text("List of Card")
+                    }
+            }
+
         }
         .padding()
     }
 }
-
-#Preview {
-    ContentView()
-}
+//
+//#Preview {
+//    ContentView()
+//        .modelContainer(for: [Category.self, Card.self])
+//    
+//}
